@@ -192,7 +192,11 @@ function App() {
     <div className="app">
       <div className="sidebar">
         <div className="sidebar-header">
-          <h3>🧠STAC ChatBot</h3>
+          <div className="app-logo">
+            <img src="logo.png" alt="STAC Logo" />
+            <span className="chatbot-text">ChatBot</span>
+          </div>
+
           <button className="new-chat" onClick={createNewChat}>
             ＋
           </button>

@@ -357,3 +357,36 @@ html,
     padding: 0.6rem;
   }
 }
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space between logo and text */
+}
+
+.app-logo img {
+  height: 32px; /* adjust size as needed */
+  width: auto;
+}
+
+.chatbot-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  position: relative;
+  animation: bounce 1.5s infinite;
+}
+
+/* Simple bounce animation */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+.app-logo img {
+  width: 50px;
+  animation: bounce 1.5s infinite;
+}
