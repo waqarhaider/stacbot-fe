@@ -1,3 +1,4 @@
+/* ---------------------- BASE STYLES ---------------------- */
 body,
 html,
 #root {
@@ -50,13 +51,21 @@ html,
 }
 
 .history-item {
-  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem;
+  border-radius: 6px;
+  margin-bottom: 0.4rem;
+  background-color: #00050f;
   cursor: pointer;
-  border-bottom: 1px solid #1f2937;
   transition: background 0.2s;
 }
 
-.history-item:hover,
+.history-item:hover {
+  background-color: #b10707;
+}
+
 .history-item.active {
   background-color: #1f2937;
 }
@@ -89,6 +98,8 @@ html,
   padding: 10px 14px;
   border-radius: 8px;
   max-width: 60%;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
 .message.user .text {
@@ -101,9 +112,8 @@ html,
   display: flex;
   border-top: 1px solid #e5e7eb;
   background-color: white;
-
-  max-width: 1000px; /* limit width */
-  width: 100%; /* responsive */
+  max-width: 1000px;
+  width: 100%;
 }
 
 .input-area input {
@@ -128,23 +138,10 @@ html,
   background-color: #1d4ed8;
 }
 
-.history-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.6rem;
-  border-radius: 6px;
-  margin-bottom: 0.4rem;
-  background-color: #00050f;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.history-item:hover {
-  background-color: #b10707;
-}
-.sources {
-  margin-top: 8px;
+/* Sources & Feedback cards */
+.sources,
+.feedbacks {
+  margin-top: 12px;
   font-size: 0.85rem;
   color: #555;
   background: #f0f0f0;
@@ -152,19 +149,6 @@ html,
   border-radius: 5px;
 }
 
-.sources h6 {
-  margin: 0 0 4px 0;
-  font-weight: 600;
-}
-
-.sources ul {
-  margin: 0;
-  padding-left: 16px;
-}
-
-.sources li {
-  margin-bottom: 4px;
-}
 .dual-response {
   display: flex;
   gap: 16px;
@@ -189,16 +173,41 @@ html,
   margin-bottom: 6px;
 }
 
-/* Active tab styling */
+/* Tab buttons */
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  gap: 0.5rem;
+}
+
+.tab-buttons button {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background-color: #374151;
+  color: #d1d5db;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.tab-buttons button:hover {
+  background-color: #4b5563;
+  color: #ffffff;
+}
+
 .tab-buttons button.active {
-  background: linear-gradient(90deg, #2563eb, #3b82f6);
-  color: #fff;
+  background: linear-gradient(90deg, #0d3ca0, #3b82f6);
+  color: #e4d9d9;
   font-weight: bold;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
   transform: translateY(-2px);
 }
 
-/* Feedback card styling */
+/* Offline Feedback card */
 .offline-feedback {
   background-color: #ffffff;
   padding: 2rem;
@@ -252,36 +261,99 @@ html,
   color: #2563eb;
 }
 
-/* --- Tab Buttons --- */
-.tab-buttons {
-  display: flex;
-  justify-content: center;
-  margin: 1rem 0;
-  gap: 0.5rem;
+/* ------------- MOBILE RESPONSIVE ---------------- */
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    overflow-x: auto;
+    border-bottom: 1px solid #374151;
+  }
+
+  .sidebar-header {
+    flex: 1;
+    justify-content: space-between;
+    padding: 0.5rem;
+  }
+
+  .tab-buttons {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .tab-buttons button {
+    flex: none;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .chat-history {
+    display: none; /* hide chat history on mobile */
+  }
+
+  .chat-main {
+    flex: 1;
+  }
+
+  .chat-messages {
+    padding: 0.5rem;
+  }
+
+  .message .text {
+    max-width: 80%;
+  }
+
+  .input-area {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
+
+  .input-area input {
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  .input-area button {
+    width: 100%;
+  }
+
+  .offline-feedback {
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 0.5rem;
+  }
+
+  .dual-response {
+    flex-direction: column;
+  }
 }
 
-.tab-buttons button {
-  flex: 1;
-  padding: 0.6rem 1rem;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  background-color: #374151;
-  color: #d1d5db;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-}
+@media (max-width: 480px) {
+  .message .avatar {
+    font-size: 18px;
+  }
 
-.tab-buttons button:hover {
-  background-color: #4b5563;
-  color: #ffffff;
-}
+  .message .text {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
 
-.tab-buttons button.active {
-  background: linear-gradient(90deg, #0d3ca0, #3b82f6);
-  color: #e4d9d9;
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-  transform: translateY(-2px);
+  .tab-buttons button {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .offline-feedback textarea {
+    font-size: 0.9rem;
+  }
+
+  .offline-feedback button {
+    font-size: 0.95rem;
+    padding: 0.6rem;
+  }
 }
