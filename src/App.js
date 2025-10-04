@@ -9,6 +9,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("chat"); // "chat" or "feedback"
   const chatEndRef = useRef(null);
+  const initialRender = useRef(true); // track first render
 
   // Feedback fields
   const [feedbackQuestion, setFeedbackQuestion] = useState("");
@@ -16,12 +17,18 @@ function App() {
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState("");
 
+  // Load chat history from localStorage
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("chatHistory") || "[]");
     setChatHistory(saved);
   }, []);
 
+  // Scroll to bottom on new messages, but skip initial render
   useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+      return; // skip scrolling on first load
+    }
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -122,9 +129,7 @@ function App() {
 
       const reply = {
         role: "bot",
-        content: {
-          openai,
-        },
+        content: { openai },
         sources: {
           openai:
             messages.length === 0
