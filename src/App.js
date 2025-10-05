@@ -16,6 +16,7 @@ function App() {
   const [feedbackAnswer, setFeedbackAnswer] = useState("");
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   // Load chat history from localStorage
   useEffect(() => {
@@ -72,6 +73,13 @@ function App() {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
+
+    const reportTypePattern = /\b(A2|M3)\b/i;
+    if (!reportTypePattern.test(input)) {
+      setShowPopup(true); // show warning popup
+      return;
+    }
+
     const chatId = currentChatId || Date.now().toString();
     if (!currentChatId) setCurrentChatId(chatId);
 
@@ -336,6 +344,21 @@ function App() {
           />
         )}
       </div>
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <h3>Please highlight the report type</h3>
+            <p>
+              Your question should mention either<strong> “A2” or “M3”</strong>.
+            </p>
+            <p>
+              For Example: Describe the technology stack that was tested in{" "}
+              <strong>A2</strong> benchmark?
+            </p>
+            <button onClick={() => setShowPopup(false)}>OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
