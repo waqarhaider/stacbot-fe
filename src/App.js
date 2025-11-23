@@ -17,6 +17,8 @@ function App() {
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [chatType, setChatType] = useState("A2");
+  const [feedbackType, setFeedbackType] = useState("A2");
 
   // Load chat history from localStorage
   useEffect(() => {
@@ -74,12 +76,6 @@ function App() {
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    const reportTypePattern = /\b(A2|M3)\b/i;
-    if (!reportTypePattern.test(input)) {
-      setShowPopup(true); // show warning popup
-      return;
-    }
-
     const chatId = currentChatId || Date.now().toString();
     if (!currentChatId) setCurrentChatId(chatId);
 
@@ -94,7 +90,7 @@ function App() {
         res = await fetch("https://stacbot-be.onrender.com/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query: input }),
+          body: JSON.stringify({ query: input, chatType: chatType }),
         });
       } else {
         const previous_user_msg = messages.find(
@@ -110,6 +106,7 @@ function App() {
             user_feedback: input,
             previous_question: previous_user_msg || null,
             previous_answer: previous_bot_msg || null,
+            chatType: chatType,
           }),
         });
       }
@@ -177,6 +174,7 @@ function App() {
             question_asked: feedbackQuestion,
             answer_received: feedbackAnswer,
             helpful_feedback: feedbackText,
+            feedbackType: feedbackType,
           }),
         }
       );
@@ -210,18 +208,55 @@ function App() {
           </button>
         </div>
 
-        <div className="tab-buttons">
+        <div className="tab-list">
+          {/* Chat Tab */}
+          <div className="tab-with-options">
+            <button
+              className={`tab-item ${activeTab === "chat" ? "active" : ""}`}
+              onClick={() => setActiveTab("chat")}
+            >
+              💬 Chat
+            </button>
+
+            {/* Radio buttons + divider */}
+            {activeTab === "chat" && (
+              <>
+                <div className="chat-type-selector">
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      name="chatType"
+                      value="A2"
+                      checked={chatType === "A2"}
+                      onChange={() => setChatType("A2")}
+                    />
+                    A2
+                  </label>
+
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      name="chatType"
+                      value="M3"
+                      checked={chatType === "M3"}
+                      onChange={() => setChatType("M3")}
+                    />
+                    M3
+                  </label>
+                </div>
+
+                {/* Divider line */}
+                <div className="tab-divider"></div>
+              </>
+            )}
+          </div>
+
+          {/* Offline Feedback */}
           <button
-            className={activeTab === "chat" ? "active" : ""}
-            onClick={() => setActiveTab("chat")}
-          >
-            Chat
-          </button>
-          <button
-            className={activeTab === "feedback" ? "active" : ""}
+            className={`tab-item ${activeTab === "feedback" ? "active" : ""}`}
             onClick={() => setActiveTab("feedback")}
           >
-            Offline Feedback
+            📝 Offline Feedback
           </button>
         </div>
 
@@ -341,6 +376,8 @@ function App() {
             setFeedback={setFeedbackText}
             status={feedbackStatus}
             saveFeedback={saveFeedback}
+            feedbackType={feedbackType}
+            setFeedbackType={setFeedbackType}
           />
         )}
       </div>
@@ -503,31 +540,63 @@ function OfflineFeedback({
   setFeedback,
   status,
   saveFeedback,
+  feedbackType,
+  setFeedbackType,
 }) {
   return (
     <div className="offline-feedback">
       <h2>Offline Feedback</h2>
+
+      {/* Radio Buttons for Feedback Type */}
+      <div className="feedback-type-selector">
+        <label className="radio-option">
+          <input
+            type="radio"
+            name="feedbackType"
+            value="A2"
+            checked={feedbackType === "A2"}
+            onChange={() => setFeedbackType("A2")}
+          />
+          A2
+        </label>
+
+        <label className="radio-option">
+          <input
+            type="radio"
+            name="feedbackType"
+            value="M3"
+            checked={feedbackType === "M3"}
+            onChange={() => setFeedbackType("M3")}
+          />
+          M3
+        </label>
+      </div>
+
       <textarea
         placeholder="Question"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
         rows={2}
       />
+
       <textarea
         placeholder="Helpful Feedback"
         value={feedback}
         onChange={(e) => setFeedback(e.target.value)}
         rows={4}
       />
+
       <textarea
         placeholder="Answer Received (Optional)"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         rows={4}
       />
+
       <button className="feedback-btn" onClick={saveFeedback}>
         Save Feedback
       </button>
+
       <div className="feedback-status">{status}</div>
     </div>
   );

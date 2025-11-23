@@ -425,3 +425,69 @@ html,
   cursor: pointer;
   margin-top: 10px;
 }
+
+.tab-list {
+  display: flex;
+  flex-direction: column;
+  background-color: #111827;
+  padding: 1rem;
+  width: 200px;
+  border-radius: 12px;
+}
+
+.tab-item {
+  text-align: left;
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s;
+  color: #e7e3e3;
+}
+
+.tab-item:hover {
+  background-color: #778196;
+}
+
+.tab-item.active {
+  background-color: #2563eb;
+  color: white;
+}
+
+.tab-with-options {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-type-selector {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  margin-left: 10px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Divider line */
+.tab-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #ddd;
+  margin: 10px 0;
+}
+.feedback-type-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
