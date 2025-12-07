@@ -16,3 +16,10 @@ The page will reload when you make changes.\
 
 Chnage wherever "https://stacbot-be.onrender.com/" to "http://localhost:8000".
 
+### `Deployment`
+
+The deployment was completed using Vercel (https://vercel.com/).
+Please use the department email for any future updates so the project does not need to be redeployed from scratch.
+Alternatively, you may create a new Vercel account using your university email and redeploy the application if necessary.
+
+If you need any help setting it up, just let me know on waqarhaidercheema@gmail.com!
